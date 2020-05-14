@@ -1,90 +1,105 @@
-# #readMoreCanlit
+# #readMoreCanlit | A Recommender System for Canadian Literature
+
+​     
+
+​     
 
 <center><img src='img/readMoreCanlit.png'></center>
-
-
 
 > Shawn Syms<br>
 > https://shawnsyms.github.io/ <br>
 > shawn@shawnsyms.com <br>
 > 416-843-4169 <br>
 
+<a name="contents"></a>
+## Contents
 
+* <a href="#executive-summary">Executive summary</a><br>
+* <a href="#overview">Overview</a><br>
+* <a href="#problem-statement">Problem statement</a><br>
+* <a href="#data-sources">Data sources</a><br>
+* <a href="#limitations">Limitations</a><br>
+* <a href="#tools-and-technologies">Tools and technologies</a><br>
+* <a href="#visuals">Visuals</a><br>
+* <a href="code/1_data_acquisition.ipynb">Notebook 1: Data acquisition</a><br>
+* <a href="code/2_data_cleaning_and_visualization.ipynb">Notebook 2: Data cleaning and visualization</a><br>
+* <a href="code/3_recommender_system.ipynb">Notebook 3: Recommender system</a><br>
 
-## Overview
+<a name="executive-summary"></a>
+## Executive summary
 
-**#readMoreCanlit** will be a content-based recommender system that promotes the reading of Canadian literature. 
+<a name="Overview"></a>
+### Overview
+#readMoreCanlit is a content-based recommender system that promotes the reading of Canadian literature. 
 
-According to a recent survey by the non-profit organization BookNetCanada, 92% percent of Canadians had read a paper copy of a book, and use of e-reading devices had increased by 25% over the previous year. Still, the Canadian best-seller lists tend to be dominated by American and international titles. 
+According to a recent survey by the non-profit organization BookNetCanada, 92% percent of Canadians had read a paper copy of a book, and use of e-reading devices had increased by 25% over the previous year. Still, the Canadian best-seller lists tend to be dominated by American and international titles. #readMoreCanlit could serve as part of a consolidated marketing program to promote reading Canadian literature. Future phases could include a purchasing engine.  
 
-#readMoreCanlit could serve as part of a consolidated marketing program to promote reading Canadian literature. Future phases could include a purchasing engine.
+<a name="problem-statement"></a>
+### Problem statement
 
----
+I will build a content-based recommender system that accepts input from readers about content they like, and makes appropriate recommendations of similar titles from a dataframe of Canadian books: 
 
-## Problem statement
+* The user should also be able to provide the name of a book , or they can select one from a list of 5 titles that the system already knows about
+* The user should also be able to input a freeform sentence about the type of book that they like
+* The baseline for comparison could be whether or not the system can make recommendations that are better than random guessing (if time permits I could build the random generator also; in fact it could be feature -- ie, just tell me about any 5 Canadian books.
 
-I will build a content-based recommender system that accepts input from readers and makes appropriate recommendations from a curated list of Canadian books: 
+<a name="data-sources"></a>
+### Data sources
 
-* The user should be able to provide the name of a book they like (or dislike) 
-* Or they can select one from a list of 5-10 titles that the system already knows about
-* The user should be able to input a freeform sentence about their reading interests.
+- The system requires the following data points: title, author and description
+- For Canadian books, the source was a specialist site called 49thshelf.com, from which I extracted information on 8,500 Canadian fiction titles
+- After removing duplicates, I had 6,775 Canadian titles
+- To get the non-Canadian titles, I needed to source International Standard Book Numbers (ISBNs). I searched online and found extensive lists of ISBNs in several places, including openlibrary.org and data.planet. From these sources, I collected 2.7M ISBNs
+- I used the API furnished by a directory called ISBNdb.com to cycle through the ISBNs 15,000 at a time (a daily limit), querying the database for title, author and description information (the lists themselves contained the ISBNs only)
+- I found that the ratio of database entries that actually included descriptions (which are core to the recommender system) was quite small -- five to ten percent at best -- so the process of gathering sufficient numbers of non-Canadian titles has been somewhat painstaking
+-- Ultimately I was able to produce a list of over 10,000 international titles on which to train the model
 
-The baseline for comparison could be whether or not the system can make recommendations that are better than random guessing, which can be assessed through domain knowledge as well as whether the recommendations are in the same genre. I will engage in testing with my peers to assess effectiveness.
+<div style="text-align: right">(<a href="#contents">home</a>) </div>
 
-Initial testing suggests that the model actually makes very good recommendations.
+<a name="metrics"></a>
+### Metrics
+Recommender systems are known to be challenging from a metrics perspective. In the case of this project, I am using domain knowledge to assess performance, and will also be conducting a survey of my peers to get their input on the effectiveness of the model. I'm researching other potential metrics; I did see one instance where a scikit learn accuracy score was used.
 
-## Progress report
+<a name="findings"></a>
+### Findings
 
-**1. Data acquisition:** Status, constraints, limitations
+- Use of scikit learn's TFIDF vectorizer and cosine similarity allows for a model that trains very quickly (x seconds) and whose results are satisfying
+- Between now and when the project is due, I'd like to try some additional approaches, such as gensim and neural networks
 
-The international categorization standard for books is **ISBN-13** (for International Standard Book Number), a 13-digit code (for example, 9781551525709). An ISBN identifies a book, its publisher and its location of publication geographically. IBSN numbers are mathematically calculated. All published books have ISBN numbers, and there is no way to sort for quality or popularity via the number. 
+<a name="limitations"></a>
+### Limitations
 
-In terms of further details about a book, the international standard for representing and communicating product information electronically is called **ONIX.** ONIX is an XML-based standard for encoding metadata about books. 
+- The project is de facto limited by my coding capabilities, though they are improving every day
+- The low number of books catalogued by the application (both Canadian and international) is a limitation; this affects both (1) quality and diversity of results and (2) the likelihood that a user will enter a book title of which the model is not yet aware 
 
-One way to access ONIX data online is through the Book Net Canada (BNC) service **Catalist,** and the BNC API. Another way to access some book data, such as a description, is through the **ISBNdb.com** API. There are also many lookup sites that will exchange an ISBN number for book metadata.
+<div style="text-align: right">(<a href="#contents">home</a>) </div>
 
-In order use either of these services, you need to already know a book's ISBN number. There are not many resources to look up ISBNs; it usually works the other way around (enter an ISBN, get the book data). An example exception would be to manually look-up books on Amazon. I did that for the first 300 books, but that's not scalable. 
+<a name="tools-and-technologies"></a>
+## Tools and technologies
 
-On the websites data.planet and datahub.io, I was able to find large repositories of ISBN numbers with no data associated to them, often originating in public libraries. These datasets feature anywhere from 1,000 to 101,000 ISBN numbers.
+> * This project uses regex and NLTK's Porter Stemmer for text preprocessing
+> * The application was coded using Python, flask, pandas and scikit learn
+> * Because this project involved many pieces of text that need to be compared to one another, the text was transformed and catalogued by the TF-IDF (term frequency–inverse document frequency) Vectorizer
 
-I have been using the ISBNdb API to iterate through the ISBN numbers (subject to daily limits), and pull the information that I need: author, title, description (I've also been pulling image URLs for books in case I can use them in the webapp). The most important feature is description, since that is what the recommender is vectorizing and comparing. The challenge is that the vast majority of the books don't have descriptions. 
+<a name="libraries"></a>
+#### Libraries
+Here is a list of libraries used in the notebooks and in the development of the system (please see the import cells and requirements.txt for full details: 
 
-Our agreed-upon objective for data size is a minimum of 500-1,000 Canadian titles and a minimum of 5,000 international titles. I can do it, and have made decent progress. 
+> - beautifulsoup
+- datetime
+- json
+- lxml
+- matplotlib
+- nltk
+- numpy
+- pandas
+- pprint
+- random
+- regex
+- requests
+- seaborn
+- sklearn
+- time
+- urllib 
 
-Out of around 17,000 books, I have identified 3,210 international titles for the dataset. I'm going to continue, but it has been slow going. I need to manually review the titles as well for appropriateness (for instance, an English-Spanish dictionary has an ISBN number, but it's not a piece of literature, it's a reference text). I also manually created an initial dataset of 400 for a total of 3,610. I believe that reaching a total of 5,000 titles should not be a problem (possibly 10,000). The process is mostly automated but requires some manual intervention, and is subject to daily limits.
-
-Through scraping content from a Canadian specialist website called 49thshelf.com, I have identified 8,860 Canadian fiction titles. I have all details for these books except the necessary description. I need to write another script to grab those. I expect that most of these books will have descriptions. I also have scraped information on another 200 Canadian non-fiction site from another specialist site called livrescanadabooks.com, and there are more titles I can grab from there. I also plan to do some additional ISBN lookups using the BNC Catalist API if I can identify more Canadian ISBNs. I've built a calculator that will validate ISBN numbers, but trying to make them up and validate them is pretty time consuming and can yield unpredictable results, so that has not been the focus. At any rate, there's a little more work to be done, but progress is happening daily. 
-
-All the data needs some level of cleaning. The IBSNdb data is the dirtiest and there will be lots of preprocessing required, which I hope to start in the next day. The non-fiction Canadian list came with the author as part of the description field, so that will need to be extracted. As the formats for the data are fairly standard, most of this will be automatable. 
-
-Once the data is clean, the title, author, and origin features will be concatenated with the description feature so that all of it can be vectorized.
-
-
-
-**2. Exploratory Data Analysis:** Thorough EDA of the consolidated dataset is pending, however I have been closely examining the data as it comes in, as input to my scripts and input into the application design. I should be in a place to do proper EDA in a few days, and then start working on the front end.
-
-
-
-**3. Modeling:** Status and results
-
-I have built a very simple recommender engine using TF-IDF vectorizer (so that words are denoted as distinctive if they appear commonly in a document versus in the entire corpus), calculating cosine similarity using the linear kernel. Initial testing shows the recommender to be very effective. My next step will be to distinguish the results between Canadian content and international content. 
-
-
-
-**4. Barriers** and necessary support
-
-The main barrier is adequate data acquisition and preprocessing. As well, it is a stretch for my coding capabilities, so I am teaching myself as I go. 
-
-
-
-**5. Proposed timeline**
-
-<center><img src='img/schedule.png'></center>
-
-
-
-- **6. Requested discussion topics for 1:1** 
-- I will mostly want some suggestions about coding various aspects of the system, as well as some insights about different approaches to a content-based recommender.
-
-
-
+<div style="text-align: right">(<a href="#contents">home</a>) </div>
