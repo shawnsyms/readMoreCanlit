@@ -52,7 +52,7 @@ I will build a content-based recommender system that accepts input from readers 
 - To get the non-Canadian titles, I needed to source International Standard Book Numbers (ISBNs). I searched online and found extensive lists of ISBNs in several places, including openlibrary.org and data.planet. From these sources, I collected 2.7M ISBNs
 - I used the API furnished by a directory called ISBNdb.com to cycle through the ISBNs 15,000 at a time (a daily limit), querying the database for title, author and description information (the lists themselves contained the ISBNs only)
 - I found that the ratio of database entries that actually included descriptions (which are core to the recommender system) was quite small -- five to ten percent at best -- so the process of gathering sufficient numbers of non-Canadian titles has been somewhat painstaking
--- Ultimately I was able to produce a list of over 10,000 international titles on which to train the model
+- Ultimately I was able to produce a list of over 10,000 international titles on which to train the model
 
 <div style="text-align: right">(<a href="#contents">home</a>) </div>
 
@@ -86,20 +86,20 @@ Recommender systems are known to be challenging from a metrics perspective. In t
 Here is a list of libraries used in the notebooks and in the development of the system (please see the import cells and requirements.txt for full details: 
 
 > - beautifulsoup
-- datetime
-- json
-- lxml
-- matplotlib
-- nltk
-- numpy
-- pandas
-- pprint
-- random
-- regex
-- requests
-- seaborn
-- sklearn
-- time
-- urllib 
+> - datetime
+> - json
+> - lxml
+> - matplotlib
+> - nltk
+> - numpy
+> - pandas
+> - pprint
+> - random
+> - regex
+> - requests
+> - seaborn
+> - sklearn
+> - time
+> - urllib 
 
 <div style="text-align: right">(<a href="#contents">home</a>) </div>
