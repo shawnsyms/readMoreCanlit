@@ -1,0 +1,92 @@
+a {
+	padding: 40px;
+	text-decoration-line: 4px;
+	text-decoration: none;
+	color: gold;
+	font-family: Candara, sans-serif
+	font-size: 150%;
+}
+
+blockquote {
+	text-decoration-color: white;
+	font-size: 300%
+	color: #ffffff;
+}
+
+
+body {
+	background-color: #cc3300;
+	color: white;
+}
+
+
+footer {
+	font-family: Candara, sans-serif;
+	margin: auto;
+	max-width: 500px
+}
+
+
+h1 {
+	color: #ffffff;
+	font-family: Candara, sans-serif;
+	line-height: 50%
+}
+
+
+h2 {
+	color: #ffffff;
+	font-family: Candara, sans-serif;
+	line-height: 90%
+}
+
+
+hr {
+  border: 4px solid black;
+}
+
+
+img {
+	width: 100%;
+}
+
+main {
+	font-family: Palatino, serif;
+	margin: auto;
+	max-width: 500px;
+	font-size: 150%
+}
+
+
+@media (max-width: 600px) {
+	body {
+		background-color: #cc3300;
+	}
+}
+
+
+.book-info {
+	line-height: 50%
+}
+
+
+.button {
+	font-family: Candara, sans-serif;
+	color: gold;
+	background-color: black;
+}
+
+.recommender-links {
+	text-decoration: none;
+	color: gold;
+	background-color: black;
+}
+
+
+.resizedTextbox {
+	width: 450px; height: 100px
+}
+
+.righty {
+	text-align: right;
+}
