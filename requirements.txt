@@ -31,7 +31,7 @@ sortedcontainers==2.1.0
 spacy @ file:///D:/bld/spacy_1589387718212/work
 statsmodels==0.11.0
 tensorboard==2.1.1
-tensorflow==2.1.0
+tensorflow==2.5.0
 tensorflow-estimator==2.1.0
 tqdm==4.42.1
 urllib3==1.25.8
